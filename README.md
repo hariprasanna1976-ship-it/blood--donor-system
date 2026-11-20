@@ -63,6 +63,8 @@ npm run dev
 Open your browser:
 
 http://localhost:3000
+or
+click to view in vercel  https://blood-donor-system-zeta.vercel.app/
 
 8. Future Enhancements
 
