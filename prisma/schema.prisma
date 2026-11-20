@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  HOSPITAL
+  DONOR
+  BLOOD_BANK
+  ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  SEARCHING
+  RESERVED
+  FULFILLED
+  FAILED
+}
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  passwordHash     String
+  name             String
+  role             String            @default("DONOR") // Enum not fully supported in SQLite Prisma, using String
+  lat              Float?
+  lng              Float?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  // Relationships
+  donorProfile     DonorProfile?
+  bloodBankInventory BloodBankInventory[]
+  emergencyRequests EmergencyRequest[]
+}
+
+model DonorProfile {
+  id               String            @id @default(uuid())
+  userId           String            @unique
+  user             User              @relation(fields: [userId], references: [id])
+  bloodGroup       String
+  lastDonationDate DateTime?
+  isVerified       Boolean           @default(false)
+  reliabilityScore Float             @default(5.0)
+  isAvailable      Boolean           @default(true)
+}
+
+model BloodBankInventory {
+  id               String            @id @default(uuid())
+  bankId           String
+  bank             User              @relation(fields: [bankId], references: [id])
+  bloodGroup       String
+  unitsAvailable   Int               @default(0)
+  lastUpdated      DateTime          @updatedAt
+}
+
+model EmergencyRequest {
+  id               String            @id @default(uuid())
+  hospitalId       String
+  hospital         User              @relation(fields: [hospitalId], references: [id])
+  bloodGroup       String
+  unitsRequired    Int
+  urgency          String            @default("HIGH") // HIGH, CRITICAL
+  status           String            @default("PENDING") // PENDING, SEARCHING, RESERVED, FULFILLED, FAILED
+  lat              Float?
+  lng              Float?
+  assignedDonorId  String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  auditLogs        AI_AuditLog[]
+}
+
+model AI_AuditLog {
+  id               String            @id @default(uuid())
+  requestId        String
+  request          EmergencyRequest  @relation(fields: [requestId], references: [id])
+  decisionAction   String
+  reasoningText    String
+  timestamp        DateTime          @default(now())
+}
