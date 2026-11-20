@@ -72,5 +72,28 @@ http://localhost:3000
 - Improved hospital coordination
 
 9. Conclusion
+10. flowchart LR
+    Donor((Donor))
+    Hospital((Hospital))
+    User((User))
+
+    subgraph System[Blood Donation System]
+        A[Login]
+        B[Register Donor]
+        C[Search Blood Donors]
+        D[Create Blood Request]
+        E[View Donation History]
+        F[Manage Donors]
+    end
+
+    Donor --> A
+    Donor --> B
+    Donor --> C
+    Donor --> E
+    Hospital --> A
+    Hospital --> D
+    Hospital --> C
+    User --> A
+    User --> C
 
 The Smart Blood Donation and Coordination System aims to make blood donation coordination easier, faster, and more accessible through a centralized web application.
