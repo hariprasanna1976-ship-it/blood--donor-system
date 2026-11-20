@@ -97,5 +97,15 @@ click to view in vercel  https://blood-donor-system-zeta.vercel.app/
     Hospital --> C
     User --> A
     User --> C
+👤 Author & Contributors
 
+- Team Members:
+  
+  - Hari Prasanna L
+  - Vishal P
+  - Sanjay Aswanth V
+
+- Project: Smart Blood Donation System
+
+- Project Type: Software Engineering Mini-Project & OOP Lab Record Submission
 The Smart Blood Donation and Coordination System aims to make blood donation coordination easier, faster, and more accessible through a centralized web application.
